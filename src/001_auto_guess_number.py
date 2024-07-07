@@ -11,38 +11,38 @@ from random import randrange
 # You are not allowed to call verify() more that 50 times or you lose.
 class AutoGuessNumber:
     def __init__(self) -> None:
-        self.attempts = 0
+        self.counter = 0
+        self.guess = 0
         self.maximum = 50
-        self.number1 = 0
-        self.number2 = 0
+        self.number = 0
         self.running = True
         self.threshold = 1000000
 
     def __verify(self) -> int:
-        if self.number1 == self.number2:
+        if self.number == self.guess:
             return 0
-        elif self.number1 < self.number2:
+        elif self.number < self.guess:
             return -1
-        elif self.number1 > self.number2:
+        elif self.number > self.guess:
             return 1
 
     def launch(self) -> None:
         print("\n\033[93mAUTOMATIC GUESS NUMBER\033[0m\n")
+        self.number = randrange(1, self.threshold)
         while self.running:
-            self.attempts += 1
-            self.number1 = randrange(1, self.threshold)
-            self.number2 = randrange(1, self.threshold)
-            print(f"ATTEMPT {self.attempts}/{self.maximum}")
-            print(f"COMPUTE {self.number1} WITH {self.number2}")
-            if self.attempts >= self.maximum:
-                print("\033[91mALLOVER, MAX ATTEMPTS EXCEEDED\033[0m\n")
+            self.counter += 1
+            self.guess = randrange(1, self.threshold)
+            print(f"{self.counter:02d}/{self.maximum}")
+            print(f"{self.guess:07d} == {self.number:07d}")
+            if self.counter >= self.maximum:
+                print("\033[91mCOUNTER EXCEEDED\033[0m\n")
                 self.running = False
                 break
             elif self.__verify() == 0:
-                print("\033[92mCORRECT, YOU WIN\033[0m\n")
+                print("\033[92mSUCCESS\033[0m\n")
                 self.running = False
             else:
-                print("\033[91mINVALID, YOU LOSE\033[0m\n")
+                print("\033[91mFAILURE\033[0m\n")
 
 
 if __name__ == "__main__":
